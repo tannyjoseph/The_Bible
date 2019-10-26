@@ -318,12 +318,12 @@ public class ChapterActivity extends ListActivity implements OnItemLongClickList
         sizerBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
+                //  Auto-generated method stub
 
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
+                //  Auto-generated method stub
 
             }
 
