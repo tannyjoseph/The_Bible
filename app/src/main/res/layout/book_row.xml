@@ -14,16 +14,19 @@
         android:paddingLeft="5dip"
         android:paddingRight="5dip" />
 
-    <TextView android:id="@+id/book_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/book_image"
-        android:layout_centerVertical="true"
-        android:text="testing"
-        android:textSize="24sp"
-        android:padding="5sp"
-        android:clickable="false"
-        android:focusable="false" />
+
+        <com.g.theholybible.providers.TextViewImmacBytes
+            android:id="@+id/book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/book_image"
+            android:layout_centerVertical="true"
+            android:text="testing"
+            android:textSize="24sp"
+            android:padding="5sp"
+            android:clickable="false"
+            android:focusable="false" />
+
 
     <ImageView android:id="@+id/book_chapter_selection"
         android:src="@drawable/listing3"
