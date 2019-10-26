@@ -26,6 +26,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+
     public static class ViewHolder{
         public TextView bookName;
         public ImageView chapterSelectButton;

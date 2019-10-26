@@ -8,50 +8,80 @@ import com.g.theholybible.data.Book;
 import com.g.theholybible.R;
 import com.g.theholybible.data.Bookmarks;
 import com.g.theholybible.data.Verse;
+import com.g.theholybible.fragments.daily_notes;
+import com.g.theholybible.fragments.favourites;
 import com.g.theholybible.providers.BibleLibrary;
 
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 
-public class Bible extends ListActivity implements OnItemClickListener {
+public class Bible extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener
+{
     private static final String TAG = "Bible";
 
     List<Book> books = null;
 
-    /** Called when the activity is first created. */
+    ListView listView;
+
+    NavigationView navigationView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        getListView().setFastScrollEnabled(true);
-        getListView().setTextFilterEnabled(true);
+        setContentView(R.layout.activity_holy__bible);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+        listView = findViewById(R.id.listview);
+        listView.setFastScrollEnabled(true);
+        listView.setTextFilterEnabled(true);
 
         setTitle("Books of the Bible");
 
         books = BibleLibrary.getBooks(getContentResolver());
-        setListAdapter(new BookAdapter(this, books));
-        getListView().setOnItemClickListener(this);
+        listView.setAdapter(new BookAdapter(this, books));
+        listView.setOnItemClickListener(this);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d(TAG, "onItemClick");
         //final Book book = books.get(position);
-        final Book book = ((BookAdapter)getListAdapter()).getItem(position);
+        BookAdapter adapter = (BookAdapter) listView.getAdapter();
+        final Book book = (adapter.getItem(position));
         //int count = BibleLibrary.getChapterCount(getContentResolver(), book);
 
         //if (count == 1) {
@@ -264,5 +294,39 @@ public class Bible extends ListActivity implements OnItemClickListener {
                 return book;
         }
         return null;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        int id = menuItem.getItemId();
+        Fragment frag = null;
+
+        if (id == R.id.nav_home){
+            Intent intent = new Intent(Bible.this, Bible.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
+        if (id == R.id.favourites)
+            frag = new favourites();
+
+        if (id == R.id.notes)
+            frag = new daily_notes();
+
+        if (frag != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, frag);
+            ft.commit();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
