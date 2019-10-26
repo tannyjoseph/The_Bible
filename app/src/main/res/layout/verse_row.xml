@@ -4,13 +4,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <TextView android:id="@+id/verse_number"
+    <com.g.theholybible.providers.TextViewImmacBytes
+        android:id="@+id/verse_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[1]"
         android:textSize="10dip" />
 
-    <TextView android:id="@+id/verse_text"
+    <com.g.theholybible.providers.TextViewImmacBytes
+        android:id="@+id/verse_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/verse_number"
