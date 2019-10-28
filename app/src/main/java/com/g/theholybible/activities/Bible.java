@@ -11,6 +11,11 @@ import com.g.theholybible.data.Verse;
 import com.g.theholybible.fragments.daily_notes;
 import com.g.theholybible.fragments.favourites;
 import com.g.theholybible.providers.BibleLibrary;
+import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
+import com.nightonke.boommenu.BoomButtons.HamButton;
+import com.nightonke.boommenu.BoomMenuButton;
+import com.nightonke.boommenu.ButtonEnum;
+import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,29 +29,31 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 
 public class Bible extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener
 {
-    private static final String TAG = "Bible";
-
     List<Book> books = null;
 
     ListView listView;
 
     NavigationView navigationView;
+    HamButton.Builder builder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +63,56 @@ public class Bible extends AppCompatActivity implements OnItemClickListener, Nav
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
+//        ActionBar mActionBar = getSupportActionBar();
+//        mActionBar.setDisplayShowHomeEnabled(false);
+//        mActionBar.setDisplayShowTitleEnabled(false);
+//        LayoutInflater mInflater = LayoutInflater.from(this);
+//
+//
+//        View actionBar = mInflater.inflate(R.layout.custom_actionbar, null);
+//        TextView mTitleTextView = (TextView) actionBar.findViewById(R.id.title_text);
+//        mTitleTextView.setText("ActionBar");
+//        mActionBar.setCustomView(actionBar);
+//        mActionBar.setDisplayShowCustomEnabled(true);
+//        ((Toolbar) actionBar.getParent()).setContentInsetsAbsolute(0,0);
+//
+//        BoomMenuButton bmb = (BoomMenuButton) findViewById(R.id.bmb);
+//
+//        bmb.setButtonEnum(ButtonEnum.Ham);
+//
+//        for (int i = 0; i < bmb.getPiecePlaceEnum().pieceNumber(); i++) {
+//             builder = (HamButton.Builder) new HamButton.Builder()
+//                    .normalImageRes(R.drawable.forward)
+//                    .normalText("Butter Doesn't fly!")
+//                    .subNormalText("Little butter Doesn't fly, either!");
+//            bmb.addBuilder(builder);
+//        }
+//
+//        BoomMenuButton leftBmb = (BoomMenuButton) actionBar.findViewById(R.id.action_bar_left_bmb);
+//        BoomMenuButton rightBmb = (BoomMenuButton) actionBar.findViewById(R.id.action_bar_right_bmb);
+//
+//        leftBmb.setButtonEnum(ButtonEnum.TextOutsideCircle);
+//        leftBmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_9_1);
+//        leftBmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_9_1);
+//        for (int i = 0; i < leftBmb.getPiecePlaceEnum().pieceNumber(); i++){
+//            builder = (HamButton.Builder) new HamButton.Builder()
+//                    .normalImageRes(R.drawable.forward)
+//                    .normalText("Butter Doesn't fly!")
+//                    .subNormalText("Little butter Doesn't fly, either!");
+//            leftBmb.addBuilder(builder);
+//
+//        }
+
+//        rightBmb.setButtonEnum(ButtonEnum.Ham);
+//        rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_4);
+//        rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_4);
+//        for (int i = 0; i < rightBmb.getPiecePlaceEnum().pieceNumber(); i++)
+//            rightBmb.addBuilder(BuilderManager.getHamButtonBuilderWithDifferentPieceColor());
+//
         listView = findViewById(R.id.listview);
         listView.setFastScrollEnabled(true);
         listView.setTextFilterEnabled(true);

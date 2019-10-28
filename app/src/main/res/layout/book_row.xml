@@ -2,13 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
+    android:background="#fff"
     android:layout_height="wrap_content">
 
     <ImageView android:id="@+id/book_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/closed3"
+        android:src="@drawable/bible"
         android:clickable="false"
         android:focusable="false"
         android:paddingLeft="5dip"
@@ -29,9 +30,9 @@
 
 
     <ImageView android:id="@+id/book_chapter_selection"
-        android:src="@drawable/listing3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:src="@drawable/list"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:paddingTop="5sp"

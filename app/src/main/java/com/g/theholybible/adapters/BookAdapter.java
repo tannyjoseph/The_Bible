@@ -32,6 +32,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
         public ImageView chapterSelectButton;
     }
 
+
+
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
         ViewHolder holder;
