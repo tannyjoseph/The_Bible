@@ -25,7 +25,7 @@ public class TextViewImmacBytes extends AppCompatTextView {
 
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/NexaLight.otf");
+            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/NITEMARE.TTF");
             setTypeface(tf);
         }
     }
