@@ -3,6 +3,10 @@ package com.g.theholybible.activities;
 import java.util.HashSet;
 import java.util.List;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.g.theholybible.adapters.BookAdapter;
 import com.g.theholybible.data.Book;
 import com.g.theholybible.R;
@@ -11,49 +15,42 @@ import com.g.theholybible.data.Verse;
 import com.g.theholybible.fragments.daily_notes;
 import com.g.theholybible.fragments.favourites;
 import com.g.theholybible.providers.BibleLibrary;
-import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
-import com.nightonke.boommenu.BoomButtons.HamButton;
-import com.nightonke.boommenu.BoomMenuButton;
-import com.nightonke.boommenu.ButtonEnum;
-import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 
-public class Bible extends AppCompatActivity implements OnItemClickListener, NavigationView.OnNavigationItemSelectedListener
+public class Bible extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener
 {
     List<Book> books = null;
 
-    ListView listView;
+    com.baoyz.swipemenulistview.SwipeMenuListView listView;
 
     NavigationView navigationView;
-    HamButton.Builder builder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,53 +63,6 @@ public class Bible extends AppCompatActivity implements OnItemClickListener, Nav
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
-//        ActionBar mActionBar = getSupportActionBar();
-//        mActionBar.setDisplayShowHomeEnabled(false);
-//        mActionBar.setDisplayShowTitleEnabled(false);
-//        LayoutInflater mInflater = LayoutInflater.from(this);
-//
-//
-//        View actionBar = mInflater.inflate(R.layout.custom_actionbar, null);
-//        TextView mTitleTextView = (TextView) actionBar.findViewById(R.id.title_text);
-//        mTitleTextView.setText("ActionBar");
-//        mActionBar.setCustomView(actionBar);
-//        mActionBar.setDisplayShowCustomEnabled(true);
-//        ((Toolbar) actionBar.getParent()).setContentInsetsAbsolute(0,0);
-//
-//        BoomMenuButton bmb = (BoomMenuButton) findViewById(R.id.bmb);
-//
-//        bmb.setButtonEnum(ButtonEnum.Ham);
-//
-//        for (int i = 0; i < bmb.getPiecePlaceEnum().pieceNumber(); i++) {
-//             builder = (HamButton.Builder) new HamButton.Builder()
-//                    .normalImageRes(R.drawable.forward)
-//                    .normalText("Butter Doesn't fly!")
-//                    .subNormalText("Little butter Doesn't fly, either!");
-//            bmb.addBuilder(builder);
-//        }
-//
-//        BoomMenuButton leftBmb = (BoomMenuButton) actionBar.findViewById(R.id.action_bar_left_bmb);
-//        BoomMenuButton rightBmb = (BoomMenuButton) actionBar.findViewById(R.id.action_bar_right_bmb);
-//
-//        leftBmb.setButtonEnum(ButtonEnum.TextOutsideCircle);
-//        leftBmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_9_1);
-//        leftBmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_9_1);
-//        for (int i = 0; i < leftBmb.getPiecePlaceEnum().pieceNumber(); i++){
-//            builder = (HamButton.Builder) new HamButton.Builder()
-//                    .normalImageRes(R.drawable.forward)
-//                    .normalText("Butter Doesn't fly!")
-//                    .subNormalText("Little butter Doesn't fly, either!");
-//            leftBmb.addBuilder(builder);
-//
-//        }
-
-//        rightBmb.setButtonEnum(ButtonEnum.Ham);
-//        rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_4);
-//        rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_4);
-//        for (int i = 0; i < rightBmb.getPiecePlaceEnum().pieceNumber(); i++)
-//            rightBmb.addBuilder(BuilderManager.getHamButtonBuilderWithDifferentPieceColor());
-//
         listView = findViewById(R.id.listview);
         listView.setFastScrollEnabled(true);
         listView.setTextFilterEnabled(true);
@@ -120,8 +70,7 @@ public class Bible extends AppCompatActivity implements OnItemClickListener, Nav
         setTitle("Books of the Bible");
 
         books = BibleLibrary.getBooks(getContentResolver());
-        listView.setAdapter(new BookAdapter(this, books));
-        listView.setOnItemClickListener(this);
+        listView.setAdapter(new BookAdapter(Bible.this, books));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -130,38 +79,79 @@ public class Bible extends AppCompatActivity implements OnItemClickListener, Nav
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "open" item
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                        0xCE)));
+                // set item width
+                openItem.setWidth(dp2px(90));
+                // set item title
+                openItem.setTitle("Open");
+                // set item title fontsize
+                openItem.setTitleSize(18);
+                // set item title font color
+                openItem.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(openItem);
+
+//                // create "delete" item
+//                SwipeMenuItem deleteItem = new SwipeMenuItem(
+//                        getApplicationContext());
+//                // set item background
+//                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+//                        0x3F, 0x25)));
+//                // set item width
+//                deleteItem.setWidth(dp2px(90));
+//                // set a icon
+//                deleteItem.setIcon(R.drawable.ic_delete);
+//                // add to menu
+//                menu.addMenuItem(deleteItem);
+            }
+        };
+        // set creator
+        listView.setMenuCreator(creator);
+
+        // step 2. listener item click event
+        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        // open
+                        break;
+                    case 1:
+                        // delete
+//					delete(item);
+                        break;
+                }
+                return false;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BookAdapter adapter = (BookAdapter) listView.getAdapter();
+
+                final Book book = (adapter.getItem(position));
+                //int count = BibleLibrary.getChapterCount(getContentResolver(), book);
+
+                //if (count == 1) {
+                gotoChapter(book, 1);
+            }
+        });
     }
 
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //final Book book = books.get(position);
-        BookAdapter adapter = (BookAdapter) listView.getAdapter();
-        final Book book = (adapter.getItem(position));
-        //int count = BibleLibrary.getChapterCount(getContentResolver(), book);
-
-        //if (count == 1) {
-        gotoChapter(book, 1);
-	/*}
-	else {
-	    final String[] chapterNames = new String[count];
-	    for (int i=0; i<count; i++) {
-		chapterNames[i] = "Chapter " + (i+1);
-	    }
-	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	    builder.setTitle(book.name);
-	    builder.setSingleChoiceItems(chapterNames, -1, new DialogInterface.OnClickListener() {
-		public void onClick(DialogInterface dialog, int which) {
-		    gotoChapter(book, which+1);
-		    dialog.cancel();
-		}
-	    });
-	    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		public void onClick(DialogInterface dialog, int whichButton) {
-		    // Canceled.
-		    dialog.cancel();
-		}
-	    });
-	    builder.show();
-	}*/
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
     }
 
     public void selectChapter(final Book book) {
