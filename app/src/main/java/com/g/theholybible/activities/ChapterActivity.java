@@ -2,21 +2,32 @@ package com.g.theholybible.activities;
 
 import java.util.List;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuAdapter;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.g.theholybible.R;
+import com.g.theholybible.adapters.BookAdapter;
 import com.g.theholybible.adapters.VerseAdapter;
 import com.g.theholybible.data.Book;
 import com.g.theholybible.data.Bookmarks;
 import com.g.theholybible.data.Verse;
 import com.g.theholybible.providers.BibleLibrary;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,7 +42,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChapterActivity extends ListActivity implements OnItemLongClickListener {
+public class ChapterActivity extends AppCompatActivity implements OnItemLongClickListener {
 
     private static final String TAG = "ChapterActivity";
 
@@ -43,16 +54,18 @@ public class ChapterActivity extends ListActivity implements OnItemLongClickList
     private String book;
     private int bookId;
     private int chapter;
-    private int verse;
+    public int verse;
     private List<Verse> verses;
     private View navigationPanel;
     private Handler closeNavigationHandler;
     private Thread closeNavigationThread;
 
+    SwipeMenuListView listView;
 
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
 
@@ -62,6 +75,7 @@ public class ChapterActivity extends ListActivity implements OnItemLongClickList
         this.bookId = getIntent().getIntExtra(BOOK_ID, 1);
         this.chapter = getIntent().getIntExtra(CHAPTER, 1);
         this.verse = getIntent().getIntExtra(VERSE, 0);
+        listView = findViewById(R.id.list);
 
         closeNavigationHandler = new Handler();
         closeNavigationThread = new Thread(new Runnable() {
@@ -75,9 +89,9 @@ public class ChapterActivity extends ListActivity implements OnItemLongClickList
 
         loadChapter();
 
-        getListView().setOnItemLongClickListener(this);
+        listView.setOnItemLongClickListener(this);
 
-        getListView().setOnTouchListener(new View.OnTouchListener() {
+        listView.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -220,18 +234,68 @@ public class ChapterActivity extends ListActivity implements OnItemLongClickList
         if (this.book != null)
             this.setTitle(this.book);
 
+        this.verse = getIntent().getIntExtra(VERSE, 0);
+
+
         ((TextView)findViewById(R.id.chapter_heading)).setText("Chapter " + this.chapter);
 
         this.verses = BibleLibrary.getVerses(getContentResolver(), this.bookId, this.chapter);
         Log.d(TAG, "Loaded " + this.verses.size() + " verses");
         VerseAdapter adapter = new VerseAdapter(this, this.verses);
-        setListAdapter(adapter);
-        if (this.verse != 0)
-            getListView().setSelection(this.verse-1); // setSelection is 0 based, verse number is 1 based
+        listView.setAdapter(adapter);
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "open" item
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                        0xCE)));
+                // set item width
+                openItem.setWidth(dp2px(90));
+                // set item title
+                openItem.setTitle("Open");
+                // set item title fontsize
+                openItem.setTitleSize(18);
+                // set item title font color
+                openItem.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(openItem);
+
+            }
+        };
+        // set creator
+        listView.setMenuCreator(creator);
+
+        // step 2. listener item click event
+        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            private int verse  = getIntent().getIntExtra(VERSE, 0);
+
+
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+
+                        if (this.verse != 0)
+                            listView.setSelection(this.verse-1);
+                        break;
+                    case 1:
+                        // delete
+//					delete(item);
+                        break;
+                }
+                return false;
+            }
+        });
 
         String toast = (this.book != null) ? (this.book + " Chapter " + this.chapter) : ("Chapter " + this.chapter);
         Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -301,12 +365,16 @@ public class ChapterActivity extends ListActivity implements OnItemLongClickList
             builder.show();
         }
     }
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
+    }
 
     public void changeFont() {
 
         final float MIN_FONT_SIZE = 14;
         final float MAX_FONT_SIZE = 26;
-        final VerseAdapter adapter = (VerseAdapter)getListAdapter();
+        final VerseAdapter adapter = (VerseAdapter)((SwipeMenuAdapter)listView.getAdapter()).getWrappedAdapter();
         final float originalFontSize = adapter.getFontSize();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

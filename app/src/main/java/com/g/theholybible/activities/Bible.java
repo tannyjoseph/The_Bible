@@ -39,12 +39,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 
-public class Bible extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener
+public class Bible extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
     List<Book> books = null;
 
