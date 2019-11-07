@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuAdapter;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
@@ -19,7 +20,6 @@ import com.g.theholybible.providers.BibleLibrary;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -48,7 +48,7 @@ public class Bible extends AppCompatActivity implements  NavigationView.OnNaviga
 {
     List<Book> books = null;
 
-    com.baoyz.swipemenulistview.SwipeMenuListView listView;
+    SwipeMenuListView listView;
 
     NavigationView navigationView;
 
@@ -101,18 +101,6 @@ public class Bible extends AppCompatActivity implements  NavigationView.OnNaviga
                 // add to menu
                 menu.addMenuItem(openItem);
 
-//                // create "delete" item
-//                SwipeMenuItem deleteItem = new SwipeMenuItem(
-//                        getApplicationContext());
-//                // set item background
-//                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-//                        0x3F, 0x25)));
-//                // set item width
-//                deleteItem.setWidth(dp2px(90));
-//                // set a icon
-//                deleteItem.setIcon(R.drawable.ic_delete);
-//                // add to menu
-//                menu.addMenuItem(deleteItem);
             }
         };
         // set creator
@@ -124,7 +112,13 @@ public class Bible extends AppCompatActivity implements  NavigationView.OnNaviga
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        // open
+                        BookAdapter adapter = (BookAdapter)((SwipeMenuAdapter) listView.getAdapter()).getWrappedAdapter();
+
+                        final Book book = (adapter.getItem(position));
+                        //int count = BibleLibrary.getChapterCount(getContentResolver(), book);
+
+                        //if (count == 1) {
+                        gotoChapter(book, 1);
                         break;
                     case 1:
                         // delete
@@ -138,7 +132,7 @@ public class Bible extends AppCompatActivity implements  NavigationView.OnNaviga
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BookAdapter adapter = (BookAdapter) listView.getAdapter();
+                BookAdapter adapter = (BookAdapter) ((SwipeMenuAdapter)listView.getAdapter()).getWrappedAdapter();
 
                 final Book book = (adapter.getItem(position));
                 //int count = BibleLibrary.getChapterCount(getContentResolver(), book);
