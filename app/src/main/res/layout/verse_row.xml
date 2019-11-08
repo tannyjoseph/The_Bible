@@ -13,10 +13,17 @@
 
     <com.g.theholybible.providers.TextViewImmacBytes
         android:id="@+id/verse_text"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/verse_number"
         android:paddingLeft="5dip"
         android:text="testing" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/verse_text"
+        android:src="@drawable/bible"
+        />
 
 </RelativeLayout>

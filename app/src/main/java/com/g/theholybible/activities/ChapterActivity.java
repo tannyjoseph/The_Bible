@@ -257,12 +257,8 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
                 // set item width
                 openItem.setWidth(dp2px(90));
                 // set item title
-                openItem.setTitle("Open");
-                // set item title fontsize
-                openItem.setTitleSize(18);
-                // set item title font color
-                openItem.setTitleColor(Color.WHITE);
-                // add to menu
+                openItem.setIcon(R.drawable.heart);
+
                 menu.addMenuItem(openItem);
 
             }
