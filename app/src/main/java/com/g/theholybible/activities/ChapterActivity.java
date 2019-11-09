@@ -85,7 +85,7 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(ChapterActivity.this, R.color.mystatus));
+        window.setStatusBarColor(ContextCompat.getColor(ChapterActivity.this, R.color.gray));
 
         this.book = getIntent().getStringExtra(TITLE);
         this.bookId = getIntent().getIntExtra(BOOK_ID, 1);
