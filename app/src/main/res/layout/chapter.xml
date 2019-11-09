@@ -2,18 +2,27 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:theme="@style/Theme.AppCompat.NoActionBar"
+    android:theme="@style/AppTheme.NoActionBar"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <TextView android:id="@+id/chapter_heading"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+    <com.g.theholybible.providers.Textview2
+        android:textSize="35sp"
+        android:textStyle="bold|italic"
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:padding="7dp"
+        android:id="@+id/chapter_heading"
+        />
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/list"
         android:dividerHeight="0.5dp"
-        android:divider="#B6B5B5"
+        android:background="@color/WHITE"
+        android:divider="#CAC8C8"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

@@ -12,6 +12,7 @@ import com.g.theholybible.adapters.BookAdapter;
 import com.g.theholybible.adapters.VerseAdapter;
 import com.g.theholybible.data.Book;
 import com.g.theholybible.data.Bookmarks;
+import com.g.theholybible.data.Chapter;
 import com.g.theholybible.data.Verse;
 import com.g.theholybible.providers.BibleLibrary;
 
@@ -25,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -34,6 +36,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -70,6 +74,18 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.chapter);
+
+        Window window = ChapterActivity.this.getWindow();
+
+
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        window.setStatusBarColor(ContextCompat.getColor(ChapterActivity.this, R.color.mystatus));
 
         this.book = getIntent().getStringExtra(TITLE);
         this.bookId = getIntent().getIntExtra(BOOK_ID, 1);
@@ -252,8 +268,7 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
                 SwipeMenuItem openItem = new SwipeMenuItem(
                         getApplicationContext());
                 // set item background
-                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                        0xCE)));
+                openItem.setBackground(R.color.WHITE);
                 // set item width
                 openItem.setWidth(dp2px(90));
                 // set item title
