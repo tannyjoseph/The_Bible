@@ -6,12 +6,26 @@
     android:background="#fff"
     tools:context=".fragments.daily_notes">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Note"
+            android:id="@+id/add"
+            />
+
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listt"
         />
+
+    </LinearLayout>
 
 
 </FrameLayout>

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.g.theholybible.R;
@@ -42,9 +43,19 @@ public class daily_notes extends Fragment {
             notes.add("Example");
         }
 
+
         else {
             notes = new ArrayList(set);
         }
+
+        Button add = v.findViewById(R.id.add);
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), write_pop.class));
+            }
+        });
 
         arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1,notes);
 

@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.g.theholybible.R;
 
@@ -22,13 +24,16 @@ public class write_pop extends Activity {
     EditText dNote;
     int noteId;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_pop);
 
         dNote = findViewById(R.id.dailynote);
+
+        ImageView close = findViewById(R.id.close);
+
+
 
         DisplayMetrics d = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(d);
@@ -41,17 +46,23 @@ public class write_pop extends Activity {
         Intent intent = getIntent();
         noteId = intent.getIntExtra("NoteId", -1);
 
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
         if (noteId != -1){
             dNote.setText(notes.get(noteId));
         }
 
-        else {
-
-            notes.add("");
-            noteId = notes.size() - 1;
-            arrayAdapter.notifyDataSetChanged();
-
-        }
+        //        else {
+//
+////            notes.add("");
+//            noteId = notes.size() - 1;
+//            arrayAdapter.notifyDataSetChanged();
+//
+//        }
 
         dNote.addTextChangedListener(new TextWatcher() {
             @Override
@@ -62,19 +73,24 @@ public class write_pop extends Activity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                notes.set(noteId,String.valueOf(s));
-                arrayAdapter.notifyDataSetChanged();
+                if (!(s.equals(""))) {
 
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.g.theholybible", Context.MODE_PRIVATE);
+                    notes.set(noteId, String.valueOf(s));
+                    arrayAdapter.notifyDataSetChanged();
 
-                HashSet<String> set = new HashSet(notes);
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.g.theholybible", Context.MODE_PRIVATE);
 
-                sharedPreferences.edit().putStringSet("notes",set).apply();
+                    HashSet<String> set = new HashSet(notes);
+
+                    sharedPreferences.edit().putStringSet("notes", set).apply();
+                }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+
+
 
             }
         });

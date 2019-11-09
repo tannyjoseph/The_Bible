@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:id="@+id/popup_element"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/WHITE"
     android:layout_width="match_parent"
@@ -8,7 +9,7 @@
     android:theme="@style/AppTheme.NoActionBar"
     tools:context=".activities.write_pop">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/close"
         android:layout_width="32dp"
         android:layout_margin="3dp"
