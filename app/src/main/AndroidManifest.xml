@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.Bible"
+        <activity android:name=".activities.write_pop"
+            android:theme="@style/CustomTheme"></activity>
+        <activity
+            android:name=".activities.Bible"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -29,12 +32,12 @@
         <activity
             android:name=".activities.ChapterActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name=".providers.BibleProvider"
             android:authorities="com.josephblough.bible.bibleprovider" />
+
     </application>
 
 </manifest>

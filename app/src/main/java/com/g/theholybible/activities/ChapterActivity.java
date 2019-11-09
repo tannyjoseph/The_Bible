@@ -77,7 +77,6 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
 
         Window window = ChapterActivity.this.getWindow();
 
-
         // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
@@ -106,6 +105,8 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
         loadChapter();
 
         listView.setOnItemLongClickListener(this);
+
+
 
         listView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -283,21 +284,33 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
 
         // step 2. listener item click event
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            private int verse  = getIntent().getIntExtra(VERSE, 0);
-
 
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
-                    case 0:
+                if (index == 0) {
+                    final Verse selectedVerse = verses.get(position);
 
-                        if (this.verse != 0)
-                            listView.setSelection(this.verse-1);
-                        break;
-                    case 1:
-                        // delete
-//					delete(item);
-                        break;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ChapterActivity.this);
+                    builder.setTitle("Add Bookmark");
+                    builder.setMessage(ChapterActivity.this.book +
+                            " Chapter " + selectedVerse.chapter +
+                            " verse " + (position + 1)+ "\n"+ "Add to Favourites?");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Bookmarks bookmarks = new Bookmarks(ChapterActivity.this);
+                            bookmarks.addBookmark(selectedVerse.id);
+
+                            dialog.cancel();
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Canceled.
+                            dialog.cancel();
+                        }
+                    });
+
+                    builder.show();
                 }
                 return false;
             }

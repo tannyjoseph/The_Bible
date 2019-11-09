@@ -1,5 +1,6 @@
 package com.g.theholybible.adapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.g.theholybible.R;
@@ -14,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static com.g.theholybible.R.layout.book_row;
+
 public class BookAdapter extends ArrayAdapter<Book> {
 
     private static LayoutInflater inflater = null;
@@ -25,6 +28,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         this.context = context;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
 
 
     public static class ViewHolder{
@@ -39,7 +43,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         ViewHolder holder;
 
         if (row == null) {
-            row = inflater.inflate(R.layout.book_row, null);
+            row = inflater.inflate(book_row, null);
             holder = new ViewHolder();
             holder.bookName = (TextView)row.findViewById(R.id.book_name);
             holder.chapterSelectButton = (ImageView)row.findViewById(R.id.book_chapter_selection);
