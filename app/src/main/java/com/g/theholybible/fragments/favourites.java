@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.g.theholybible.R;
-import com.g.theholybible.activities.Bible;
 import com.g.theholybible.activities.ChapterActivity;
-import com.g.theholybible.adapters.BookAdapter;
 import com.g.theholybible.data.Book;
 import com.g.theholybible.data.Bookmarks;
 import com.g.theholybible.data.Verse;
@@ -27,11 +25,8 @@ import java.util.List;
 public class favourites extends Fragment {
 
     View view;
-
     SwipeMenuListView list;
-
     List<Book> books ;
-
 
     @NonNull
     @Override
@@ -79,8 +74,11 @@ public class favourites extends Fragment {
                 startActivity(intent);
 
             }
+
         });
+
         return view;
+
     }
 
 }

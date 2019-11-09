@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/WHITE"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme.NoActionBar"
+    tools:context=".activities.write_pop">
+
+    <ImageButton
+        android:id="@+id/close"
+        android:layout_width="32dp"
+        android:layout_margin="3dp"
+        android:layout_height="32dp"
+        android:src="@drawable/cancel"
+        android:background="@color/WHITE"
+        android:layout_gravity="end"
+        android:gravity="center"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dailynote"
+        android:textSize="15sp"
+        />
+
+</LinearLayout>
