@@ -24,9 +24,10 @@ public class daily_notes extends Fragment {
     View v ;
 
     SwipeMenuListView listt;
-    static ArrayList<String> notes = new ArrayList<String>();
 
-    static ArrayAdapter arrayAdapter;
+    public static ArrayList<String> notes = new ArrayList<String>();
+
+    public static ArrayAdapter arrayAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
