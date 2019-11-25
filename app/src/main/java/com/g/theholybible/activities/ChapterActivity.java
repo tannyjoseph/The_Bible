@@ -323,8 +323,8 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.chapter_menu, menu);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.chapter_menu, menu);
         return true;
     }
 

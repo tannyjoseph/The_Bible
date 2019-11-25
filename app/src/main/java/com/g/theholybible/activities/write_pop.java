@@ -58,12 +58,15 @@ public class write_pop extends Activity {
             @Override
             public void onClick(View v) {
 
+                if (notes.get(noteId) == ""){
+                    notes.remove(noteId);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+
                 write_pop.super.onBackPressed();  // optional depending on your needs
 
             }
         });
-
-
 
         if (noteId != -1) {
             dNote.setText(notes.get(noteId));
@@ -85,23 +88,11 @@ public class write_pop extends Activity {
 
                 if (!(s.equals(""))) {
 
+                    notes.set(noteId, String.valueOf(s));
+                    arrayAdapter.notifyDataSetChanged();
 
-                    save.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-
-                                notes.set(noteId, String.valueOf(s));
-                                arrayAdapter.notifyDataSetChanged();
-
-                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.g.theholybible", Context.MODE_PRIVATE);
-
-                                HashSet<String> set = new HashSet(notes);
-
-                                sharedPreferences.edit().putStringSet("notes", set).apply();
-
-                        }
-                    });
+                } else {
+                    save.setEnabled(false);
                 }
 
             }
@@ -113,9 +104,31 @@ public class write_pop extends Activity {
             }
         });
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("com.g.theholybible", Context.MODE_PRIVATE);
+
+                HashSet<String> set = new HashSet(notes);
+
+                sharedPreferences.edit().putStringSet("notes", set).apply();
 
 
+                write_pop.super.onBackPressed();
 
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (notes.get(noteId) == ""){
+            notes.remove(noteId);
+            arrayAdapter.notifyDataSetChanged();
+        }
+        super.onBackPressed();
 
     }
 }

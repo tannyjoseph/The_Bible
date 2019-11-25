@@ -211,8 +211,8 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.books_menu, menu);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.books_menu, menu);
         return true;
     }
 
