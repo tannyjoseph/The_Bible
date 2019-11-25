@@ -1,6 +1,8 @@
 package com.g.theholybible.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -67,6 +69,35 @@ public class daily_notes extends Fragment {
                 Intent intent = new Intent(getActivity().getApplicationContext(), write_pop.class);
                 intent.putExtra("NoteId",position);
                 startActivity(intent);
+            }
+        });
+
+        listt.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                new AlertDialog.Builder(getContext())
+                        .setIcon(android.R.drawable.ic_delete)
+                        .setTitle("Are You Sure?")
+                        .setMessage("Do you want to delete this note?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                notes.remove(position);
+                                arrayAdapter.notifyDataSetChanged();
+
+                                SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("com.example.notesapp", Context.MODE_PRIVATE);
+
+                                HashSet<String> set = new HashSet(notes);
+
+                                sharedPreferences.edit().putStringSet("notes",set).apply();
+
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+                return true;
             }
         });
 

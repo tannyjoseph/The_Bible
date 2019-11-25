@@ -157,27 +157,27 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         final Verse selectedVerse = verses.get(position);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Bookmark");
-        builder.setMessage("Add bookmark for " + this.book +
-                " Chapter " + selectedVerse.chapter +
-                " verse " + (position + 1) + "?");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                Bookmarks bookmarks = new Bookmarks(ChapterActivity.this);
-                bookmarks.addBookmark(selectedVerse.id);
-
-                dialog.cancel();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                // Canceled.
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+    //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Add Bookmark");
+//        builder.setMessage("Add bookmark for " + this.book +
+//                " Chapter " + selectedVerse.chapter +
+//                " verse " + (position + 1) + "?");
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                Bookmarks bookmarks = new Bookmarks(ChapterActivity.this);
+//                bookmarks.addBookmark(selectedVerse.id);
+//
+//                dialog.cancel();
+//            }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                // Canceled.
+//                dialog.cancel();
+//            }
+//        });
+//
+//        builder.show();
 
         return true;
     }

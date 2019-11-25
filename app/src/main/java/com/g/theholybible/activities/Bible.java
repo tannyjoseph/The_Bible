@@ -1,8 +1,11 @@
 package com.g.theholybible.activities;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.List;
 
+import com.ajts.androidmads.library.SQLiteToExcel;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuAdapter;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -12,17 +15,22 @@ import com.g.theholybible.adapters.BookAdapter;
 import com.g.theholybible.data.Book;
 import com.g.theholybible.R;
 import com.g.theholybible.data.Bookmarks;
+import com.g.theholybible.data.CSVWriter;
 import com.g.theholybible.data.Verse;
 import com.g.theholybible.fragments.daily_notes;
 import com.g.theholybible.fragments.favourites;
+import com.g.theholybible.providers.BibleDatabaseHelper;
 import com.g.theholybible.providers.BibleLibrary;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -32,6 +40,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -269,6 +278,9 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
             builder.show();
         }
     }
+
+
+
 
     private void removeBookmarks() {
         final Bookmarks bookmarks = new Bookmarks(this);

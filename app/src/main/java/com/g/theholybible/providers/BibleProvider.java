@@ -29,7 +29,7 @@ public class BibleProvider extends ContentProvider {
     private static final int VERSES_COUNT = 10;
     private static final int VERSE_ID = 11;
 
-    public static final String AUTHORITY = "com.josephblough.bible.bibleprovider";
+    public static final String AUTHORITY = "com.g.theholybible.bibleprovider";
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
@@ -77,22 +77,22 @@ public class BibleProvider extends ContentProvider {
         int match = URI_MATCHER.match(uri);
         switch (match) {
             case TESTAMENTS:
-                return "vnd.android.cursor.dir/vnd.josephblough.testament";
+                return "vnd.android.cursor.dir/vnd.g.testament";
             case TESTAMENT_ID:
-                return "vnd.android.cursor.item/vnd.josephblough.testament";
+                return "vnd.android.cursor.item/vnd.g.testament";
             case BOOKS:
-                return "vnd.android.cursor.dir/vnd.josephblough.book";
+                return "vnd.android.cursor.dir/vnd.g.book";
             case BOOK_ID:
-                return "vnd.android.cursor.item/vnd.josephblough.book";
+                return "vnd.android.cursor.item/vnd.g.book";
             case CHAPTERS:
-                return "vnd.android.cursor.dir/vnd.josephblough.chapter";
+                return "vnd.android.cursor.dir/vnd.g.chapter";
             case CHAPTER_ID:
-                return "vnd.android.cursor.item/vnd.josephblough.chapter";
+                return "vnd.android.cursor.item/vnd.g.chapter";
             case VERSES:
-                return "vnd.android.cursor.dir/vnd.josephblough.verse";
+                return "vnd.android.cursor.dir/vnd.g.verse";
             case VERSE_NUMBER:
             case VERSE_ID:
-                return "vnd.android.cursor.item/vnd.josephblough.verse";
+                return "vnd.android.cursor.item/vnd.g.verse";
             default:
                 return null;
         }

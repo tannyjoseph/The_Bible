@@ -1,6 +1,8 @@
 package com.g.theholybible.providers;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,10 +10,14 @@ import java.io.OutputStream;
 import com.g.theholybible.R;
 
 import android.content.Context;
+import com.ajts.androidmads.library.SQLiteToExcel;
+
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.util.Log;
 
 public class BibleDatabaseHelper extends SQLiteOpenHelper {
@@ -20,6 +26,8 @@ public class BibleDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "bible.db";
     private SQLiteDatabase database;
     private final Context context;
+
+
 
     public BibleDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -107,6 +115,8 @@ public class BibleDatabaseHelper extends SQLiteOpenHelper {
         database = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         return database;
     }
+
+
 
     public synchronized void close() {
         if (database != null) {
