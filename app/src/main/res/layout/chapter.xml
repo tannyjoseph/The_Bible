@@ -29,6 +29,7 @@
 
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/list"
+        android:paddingTop="5dp"
         android:dividerHeight="0.5dp"
         android:background="@color/WHITE"
         android:divider="#CAC8C8"

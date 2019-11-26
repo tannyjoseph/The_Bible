@@ -8,23 +8,31 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.g.theholybible.R;
+import com.g.theholybible.activities.ChapterActivity;
 import com.g.theholybible.activities.write_pop;
+import com.g.theholybible.data.Bookmarks;
+import com.g.theholybible.data.Verse;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class daily_notes extends Fragment {
 
-    View v ;
+    View v;
 
     SwipeMenuListView listt;
 
@@ -41,41 +49,38 @@ public class daily_notes extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("com.g.theholybible", Context.MODE_PRIVATE);
         HashSet<String> set = (HashSet<String>) sharedPreferences.getStringSet("notes", null);
 
-        if (set == null){
+        if (set == null) {
             notes.add("Example");
-        }
-
-
-        else {
+        } else {
             notes = new ArrayList(set);
         }
 
-        Button add = v.findViewById(R.id.add);
-
-        add.setOnClickListener(new View.OnClickListener() {
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), write_pop.class));
+            public void create(SwipeMenu menu) {
+
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getActivity().getApplicationContext());
+                // set item background
+                openItem.setBackground(R.color.purple);
+                // set item width
+                openItem.setWidth(dp2px(90));
+                // set item title
+                openItem.setTitle("Delete");
+                openItem.setTitleSize(18);
+                openItem.setTitleColor(R.color.WHITE);
+
+                menu.addMenuItem(openItem);
+
             }
-        });
+        };
 
-        arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1,notes);
+        listt.setMenuCreator(creator);
 
-        listt.setAdapter(arrayAdapter);
+        listt.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
 
-        listt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), write_pop.class);
-                intent.putExtra("NoteId",position);
-                startActivity(intent);
-            }
-        });
-
-        listt.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
+            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
                 new AlertDialog.Builder(getContext())
                         .setIcon(android.R.drawable.ic_delete)
                         .setTitle("Are You Sure?")
@@ -87,11 +92,12 @@ public class daily_notes extends Fragment {
                                 notes.remove(position);
                                 arrayAdapter.notifyDataSetChanged();
 
-                                SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("com.example.notesapp", Context.MODE_PRIVATE);
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("com.g.theholybible", Context.MODE_PRIVATE);
 
                                 HashSet<String> set = new HashSet(notes);
 
-                                sharedPreferences.edit().putStringSet("notes",set).apply();
+                                //sharedPreferences.edit().putStringSet("notes",set).apply();
+                                sharedPreferences.edit().putStringSet("notes", set).commit();
 
                             }
                         })
@@ -101,8 +107,35 @@ public class daily_notes extends Fragment {
             }
         });
 
+        Button add = v.findViewById(R.id.add);
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), write_pop.class));
+            }
+        });
+
+        arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, notes);
+
+        listt.setAdapter(arrayAdapter);
+
+        listt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), write_pop.class);
+                intent.putExtra("NoteId", position);
+                startActivity(intent);
+            }
+        });
+
+
         return v;
     }
 
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
+    }
 
 }

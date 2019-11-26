@@ -269,11 +269,11 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
                 SwipeMenuItem openItem = new SwipeMenuItem(
                         getApplicationContext());
                 // set item background
-                openItem.setBackground(R.color.WHITE);
+                openItem.setBackground(R.color.purple);
                 // set item width
                 openItem.setWidth(dp2px(90));
                 // set item title
-                openItem.setIcon(R.drawable.heart);
+                openItem.setIcon(R.drawable.heartt);
 
                 menu.addMenuItem(openItem);
 
@@ -294,7 +294,7 @@ public class ChapterActivity extends AppCompatActivity implements OnItemLongClic
                     builder.setTitle("Add Bookmark");
                     builder.setMessage(ChapterActivity.this.book +
                             " Chapter " + selectedVerse.chapter +
-                            " verse " + (position + 1)+ "\n"+ "Add to Favourites?");
+                            " Verse " + (position + 1)+ "\n"+ "Add to Favourites?");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             Bookmarks bookmarks = new Bookmarks(ChapterActivity.this);
