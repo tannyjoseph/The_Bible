@@ -1,11 +1,8 @@
 package com.g.theholybible.activities;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.List;
 
-import com.ajts.androidmads.library.SQLiteToExcel;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuAdapter;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -15,22 +12,21 @@ import com.g.theholybible.adapters.BookAdapter;
 import com.g.theholybible.data.Book;
 import com.g.theholybible.R;
 import com.g.theholybible.data.Bookmarks;
-import com.g.theholybible.data.CSVWriter;
 import com.g.theholybible.data.Verse;
 import com.g.theholybible.fragments.daily_notes;
 import com.g.theholybible.fragments.favourites;
-import com.g.theholybible.providers.BibleDatabaseHelper;
 import com.g.theholybible.providers.BibleLibrary;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Environment;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -51,13 +47,13 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 
-public class Bible extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
-{
+public class Bible extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     List<Book> books = null;
 
     SwipeMenuListView listView;
 
     NavigationView navigationView;
+    Fragment fragment = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,10 +61,10 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_holy__bible);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         listView = findViewById(R.id.listview);
         listView.setFastScrollEnabled(true);
@@ -80,57 +76,87 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
         listView.setAdapter(new BookAdapter(Bible.this, books));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+        //toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //        SwipeMenuCreator creator = new SwipeMenuCreator() {
-//
-//            @Override
-//            public void create(SwipeMenu menu) {
-//                // create "open" item
-//                SwipeMenuItem openItem = new SwipeMenuItem(
-//                        getApplicationContext());
-//                // set item background
-//                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-//                        0xCE)));
-//                // set item width
-//                openItem.setWidth(dp2px(90));
-//                // set item title
-//                openItem.setTitle("Open");
-//                // set item title fontsize
-//                openItem.setTitleSize(18);
-//                // set item title font color
-//                openItem.setTitleColor(Color.WHITE);
-//                // add to menu
-//                menu.addMenuItem(openItem);
-//
-//            }
-//        };
-//        // set creator
-//        listView.setMenuCreator(creator);
+        FloatingActionsMenu menu = (FloatingActionsMenu) findViewById(R.id.addd);
+        FloatingActionButton favourites = (FloatingActionButton) findViewById(R.id.fav);
+        FloatingActionButton dano = findViewById(R.id.dano);
+        FloatingActionButton search = findViewById(R.id.search);
 
-        // step 2. listener item click event
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Bible.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+        search.setTitle("Search");
+        favourites.setTitle("Favourites");
+        dano.setTitle("Notes");
+
+        favourites.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                fragment = new favourites();
+                makeFragment(fragment);
+            }
+        });
+
+        dano.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new daily_notes();
+                makeFragment(fragment);
+            }
+        });
+
+
+                SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "open" item
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                        0xCE)));
+                // set item width
+                openItem.setWidth(dp2px(90));
+                // set item title
+                openItem.setTitle("Chapters");
+                // set item title fontsize
+                openItem.setTitleSize(18);
+                // set item title font color
+                openItem.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(openItem);
+
+            }
+        };
+        // set creator
+        listView.setMenuCreator(creator);
+
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
-                    case 0:
-                        BookAdapter adapter = (BookAdapter)((SwipeMenuAdapter) listView.getAdapter()).getWrappedAdapter();
+                if (index == 0) {
+                    BookAdapter adapter = (BookAdapter) ((SwipeMenuAdapter) listView.getAdapter()).getWrappedAdapter();
 
-                        final Book book = (adapter.getItem(position));
-                        //int count = BibleLibrary.getChapterCount(getContentResolver(), book);
+                    final Book book = (adapter.getItem(position));
+                    //int count = BibleLibrary.getChapterCount(getContentResolver(), book);
 
-                        //if (count == 1) {
-                        gotoChapter(book, 1);
-                        break;
-                    case 1:
-                        // delete
-//					delete(item);
-                        break;
+                    //if (count == 1) {
+                    Bible.this.selectChapter(book);
                 }
                 return false;
             }
@@ -139,7 +165,7 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BookAdapter adapter = (BookAdapter) ((SwipeMenuAdapter)listView.getAdapter()).getWrappedAdapter();
+                BookAdapter adapter = (BookAdapter) ((SwipeMenuAdapter) listView.getAdapter()).getWrappedAdapter();
 
                 final Book book = (adapter.getItem(position));
                 //int count = BibleLibrary.getChapterCount(getContentResolver(), book);
@@ -150,9 +176,11 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
         });
     }
 
-    private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getResources().getDisplayMetrics());
+    private void makeFragment(Fragment fragment) {
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, fragment).addToBackStack("Stack");
+        ft.commit();
     }
 
     public void selectChapter(final Book book) {
@@ -160,11 +188,10 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
 
         if (count == 1) {
             gotoChapter(book, 1);
-        }
-        else {
+        } else {
             final String[] chapterNames = new String[count];
-            for (int i=0; i<count; i++) {
-                chapterNames[i] = "Chapter " + (i+1);
+            for (int i = 0; i < count; i++) {
+                chapterNames[i] = "Chapter " + (i + 1);
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -172,7 +199,7 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
             builder.setSingleChoiceItems(chapterNames, -1, new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
-                    gotoChapter(book, which+1);
+                    gotoChapter(book, which + 1);
 
                     dialog.cancel();
                 }
@@ -240,10 +267,9 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
 
         if (bookmarkListing.size() == 0) {
             Toast.makeText(this, "No bookmarks have been saved", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             final String[] bookmarkStrings = new String[bookmarkListing.size()];
-            for (int i=0; i<bookmarkListing.size(); i++) {
+            for (int i = 0; i < bookmarkListing.size(); i++) {
                 Verse bookmarkedVerse = BibleLibrary.getVerse(getContentResolver(), bookmarkListing.get(i));
                 Book book = findBook(bookmarkedVerse.bookId);
                 bookmarkStrings[i] = book.name + " Chapter " + bookmarkedVerse.chapter + " Verse " + bookmarkedVerse.number;
@@ -280,8 +306,6 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
 
-
-
     private void removeBookmarks() {
         final Bookmarks bookmarks = new Bookmarks(this);
         bookmarks.loadBookmarks();
@@ -290,9 +314,8 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
         final String[] bookmarkStrings = new String[bookmarkListing.size()];
         if (bookmarkListing.size() == 0) {
             Toast.makeText(this, "No bookmarks have been saved", Toast.LENGTH_LONG).show();
-        }
-        else {
-            for (int i=0; i<bookmarkListing.size(); i++) {
+        } else {
+            for (int i = 0; i < bookmarkListing.size(); i++) {
                 Verse bookmarkedVerse = BibleLibrary.getVerse(getContentResolver(), bookmarkListing.get(i));
                 Book book = findBook(bookmarkedVerse.bookId);
                 bookmarkStrings[i] = book.name + " Chapter " + bookmarkedVerse.chapter + " Verse " + bookmarkedVerse.number;
@@ -336,7 +359,7 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
     private Book findBook(final int bookId) {
-        for (int i=0; i<books.size(); i++) {
+        for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
             if (book.id.equals(bookId))
                 return book;
@@ -350,9 +373,9 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
         int id = menuItem.getItemId();
         Fragment frag = null;
 
-        if (id == R.id.nav_home){
+        if (id == R.id.nav_home) {
             Intent intent = new Intent(Bible.this, Bible.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
 
@@ -363,9 +386,7 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
             frag = new daily_notes();
 
         if (frag != null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, frag);
-            ft.commit();
+            makeFragment(frag);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -376,5 +397,20 @@ public class Bible extends AppCompatActivity implements NavigationView.OnNavigat
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

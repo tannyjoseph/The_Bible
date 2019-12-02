@@ -7,4 +7,6 @@
     <color name="gray">#ACABAB</color>
     <color name="purple">#D991E7</color>
     <color name="red">#EC1616</color>
+    <color name="blue">#00BDF0</color>
+    <color name="black_semi_transparent">#B2000000</color>
 </resources>

@@ -138,4 +138,6 @@ public class daily_notes extends Fragment {
                 getResources().getDisplayMetrics());
     }
 
+
+
 }

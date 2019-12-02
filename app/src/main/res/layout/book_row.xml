@@ -28,17 +28,4 @@
             android:clickable="false"
             android:focusable="false" />
 
-
-    <ImageView android:id="@+id/book_chapter_selection"
-        android:src="@drawable/list"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:paddingTop="5sp"
-        android:paddingBottom="5sp"
-        android:paddingRight="5sp"
-        android:clickable="false"
-        android:focusable="false" />
-
 </RelativeLayout>

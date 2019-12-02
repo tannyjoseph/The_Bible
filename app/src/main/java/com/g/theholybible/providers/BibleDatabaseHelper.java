@@ -10,14 +10,11 @@ import java.io.OutputStream;
 import com.g.theholybible.R;
 
 import android.content.Context;
-import com.ajts.androidmads.library.SQLiteToExcel;
 
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 import android.util.Log;
 
 public class BibleDatabaseHelper extends SQLiteOpenHelper {

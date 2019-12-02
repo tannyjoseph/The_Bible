@@ -6,9 +6,32 @@
     android:background="#fff"
     tools:context=".fragments.favourites">
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list1"
-        />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textFav"
+            android:padding="7dp"
+            android:background="@color/WHITE"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/balthazar"
+            android:text="Favourites"
+            android:textColor="#000"
+            android:textSize="40sp"
+            android:elevation="25dp"
+            android:textStyle="italic" />
+
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:layout_marginTop="10dp"
+            android:id="@+id/list1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
 </FrameLayout>

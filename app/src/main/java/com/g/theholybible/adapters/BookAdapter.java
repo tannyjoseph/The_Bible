@@ -46,7 +46,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
             row = inflater.inflate(book_row, null);
             holder = new ViewHolder();
             holder.bookName = (TextView)row.findViewById(R.id.book_name);
-            holder.chapterSelectButton = (ImageView)row.findViewById(R.id.book_chapter_selection);
+            //holder.chapterSelectButton = (ImageView)row.findViewById(R.id.book_chapter_selection);
             row.setTag(holder);
         }
         else
@@ -56,12 +56,12 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         holder.bookName.setText(entry.name);
 
-        holder.chapterSelectButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                context.selectChapter(entry);
-            }
-        });
+//        holder.chapterSelectButton.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+//                context.selectChapter(entry);
+//            }
+//        });
 
         return row;
     }
