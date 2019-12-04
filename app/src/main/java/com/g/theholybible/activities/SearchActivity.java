@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.g.theholybible.R;
+import com.g.theholybible.adapters.spinnerAdapter;
 import com.g.theholybible.data.Book;
 import com.g.theholybible.providers.BibleLibrary;
 
@@ -45,6 +46,10 @@ public class SearchActivity extends Activity implements OnClickListener {
     ListView selectedBooksListView;
     Spinner searchMethodSpinner;
     Spinner searchScopeSpinner;
+
+    private String[] scope = {"All Books", "Old Testament", "New Testament", "Select Books"};
+    private String[] methods = {"Exact Phrase","All words in search term", "Any words in search term"};
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,14 +73,19 @@ public class SearchActivity extends Activity implements OnClickListener {
         searchMethodSpinner = (Spinner) findViewById(R.id.search_method);
         searchScopeSpinner = (Spinner) findViewById(R.id.search_scope);
 
-        ArrayAdapter<CharSequence> methodsAdapter = ArrayAdapter.createFromResource(this, R.array.search_methods,
-                android.R.layout.simple_spinner_item);
-        methodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        searchMethodSpinner.setAdapter(methodsAdapter);
+        spinnerAdapter spinnerAdapter = new spinnerAdapter(this, methods);
 
-        ArrayAdapter<CharSequence> scopeAdapter = ArrayAdapter.createFromResource(this, R.array.search_scope,
-                android.R.layout.simple_spinner_item);
-        scopeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        ArrayAdapter<CharSequence> methodsAdapter = ArrayAdapter.createFromResource(this, R.array.search_methods,
+//                android.R.layout.simple_spinner_item);
+//        methodsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        searchMethodSpinner.setAdapter(spinnerAdapter);
+
+
+
+        spinnerAdapter scopeAdapter = new spinnerAdapter(this, scope);
+//        ArrayAdapter<CharSequence> scopeAdapter = ArrayAdapter.createFromResource(this, R.array.search_scope,
+//                android.R.layout.simple_spinner_item);
+//        scopeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchScopeSpinner.setAdapter(scopeAdapter);
 
         searchScopeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

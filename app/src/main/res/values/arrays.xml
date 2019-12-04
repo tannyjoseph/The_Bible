@@ -5,7 +5,7 @@
         <item>All Books</item>
         <item>Old Testament</item>
         <item>New Testament</item>
-        <item>Select Books...</item>
+        <item>Select Books</item>
     </string-array>
 
     <string-array name="search_methods">
