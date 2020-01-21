@@ -14,29 +14,32 @@
         android:foregroundTint="@color/blue"
         android:layout_margin="9dp"
         android:drawableLeft="@drawable/search_ic"
-        android:drawablePadding="2dp"
+        android:drawablePadding="7dp"
         android:textSize="22sp"
         android:background="@drawable/etbg"
-        android:hint="  Search term" />
+        android:hint="Search term" />
 
     <Spinner
         android:id="@+id/search_method"
 
         android:layout_width="fill_parent"
         android:layout_margin="7dp"
-        android:padding="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+
         android:background="@drawable/spinner"
-        android:layout_height="32dp"
+        android:layout_height="50dp"
         android:spinnerMode="dropdown"
         android:layout_below="@id/search_term" />
 
     <Spinner android:id="@+id/search_scope"
         android:layout_margin="7dp"
-        android:padding="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:background="@drawable/spinner"
         android:spinnerMode="dropdown"
         android:layout_width="fill_parent"
-        android:layout_height="32dp"
+        android:layout_height="50dp"
         android:layout_below="@id/search_method" />
 
     <Button android:id="@+id/submit_search"

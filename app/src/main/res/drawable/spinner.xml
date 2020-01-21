@@ -4,11 +4,15 @@
     <item>
 
         <shape android:shape="rectangle">
-            <padding android:right="4dp" />
+            <stroke
+                android:color="#000"
+                android:width="1dp"
+                />
+            <padding android:right="7dp" />
 
             <corners android:radius="10dp" />
 
-            <solid android:color="#ddBD96FF" />
+            <solid android:color="#9F95EB" />
 
         </shape>
 
